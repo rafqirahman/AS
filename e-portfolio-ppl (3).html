@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Portfolio PPL — M. Rafqi Rahman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:    #17120E;
+  --paper:  #F5F0E8;
+  --rust:   #C4512A;
+  --amber:  #D4962A;
+  --moss:   #3D6147;
+  --dusk:   #2C3E50;
+  --sand:   #E8DFD0;
+  --fog:    #B8AFA4;
+  --white:  #FEFCF9;
+  --glow:   rgba(212,150,42,0.18);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.6;
+}
+
+/* ══════════════════════════════════
+   NAVBAR — slim floating pill
+══════════════════════════════════ */
+.navbar {
+  position: fixed;
+  top: 18px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(23,18,14,0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 100px;
+  padding: 6px 8px 6px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+}
+.navbar-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--amber);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  margin-right: 16px;
+  white-space: nowrap;
+}
+.navbar-links { display: flex; gap: 2px; }
+.navbar-links a {
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 6px 14px;
+  border-radius: 100px;
+  transition: all 0.25s;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.navbar-links a:hover, .navbar-links a.active {
+  background: var(--rust);
+  color: #fff;
+}
+@media (max-width: 640px) {
+  .navbar { top: 10px; padding: 5px 6px 5px 14px; }
+  .navbar-brand { font-size: 12px; margin-right: 8px; }
+  .navbar-links a { font-size: 11px; padding: 5px 10px; }
+}
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 2rem 4rem;
+}
+
+/* Decorative batik-like rings */
+.hero-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(212,150,42,0.12);
+  pointer-events: none;
+  animation: pulse-ring 8s ease-in-out infinite;
+}
+.hero-ring:nth-child(1) { width: 300px; height: 300px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 0s; }
+.hero-ring:nth-child(2) { width: 500px; height: 500px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 1.5s; }
+.hero-ring:nth-child(3) { width: 720px; height: 720px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 3s; }
+.hero-ring:nth-child(4) { width: 960px; height: 960px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 4.5s; }
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+
+/* Diagonal text watermark */
+.hero-wm {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(60px, 14vw, 180px);
+  color: rgba(212,150,42,0.04);
+  white-space: nowrap;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Avatar */
+.hero-avatar {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  border: 2px solid var(--amber);
+  background: rgba(212,150,42,0.1);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 2rem;
+  position: relative; z-index: 1;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-avatar-init {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 600;
+  color: var(--amber);
+}
+
+/* Year tag */
+.hero-year {
+  display: inline-block;
+  border: 1px solid rgba(212,150,42,0.4);
+  color: var(--amber);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 5px 18px;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+  position: relative; z-index: 1;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  color: #fff;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+  position: relative; z-index: 1;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.hero-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  position: relative; z-index: 1;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.hero-chips {
+  display: flex; justify-content: center;
+  flex-wrap: wrap; gap: 8px;
+  position: relative; z-index: 1;
+  animation: fadeUp 0.8s 0.45s ease both;
+  margin-bottom: 3rem;
+}
+.chip {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.65);
+  font-size: 11px;
+  padding: 5px 14px;
+  border-radius: 100px;
+}
+.chip.accent {
+  background: rgba(196,81,42,0.2);
+  border-color: rgba(196,81,42,0.4);
+  color: #EFA078;
+}
+
+/* Scroll cue */
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.25);
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  z-index: 1;
+  animation: fadeUp 1s 1s ease both;
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, rgba(212,150,42,0.6), transparent);
+  animation: scroll-line 2s ease-in-out infinite;
+}
+@keyframes scroll-line {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════
+   MAIN WRAPPER
+══════════════════════════════════ */
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ══════════════════════════════════
+   SECTION LAYOUT
+══════════════════════════════════ */
+.sec {
+  padding: 6rem 0 4rem;
+  position: relative;
+}
+.sec + .sec::before {
+  content: '';
+  display: block;
+  width: 60px; height: 2px;
+  background: var(--rust);
+  margin-bottom: 5rem;
+}
+
+/* Section label + title block */
+.sec-hd {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 0 1.5rem;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+.sec-num {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 56px;
+  color: var(--amber);
+  line-height: 1;
+  opacity: 0.35;
+}
+.sec-meta { padding-top: 4px; }
+.sec-label {
+  font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--rust);
+  margin-bottom: 6px; display: block;
+}
+.sec-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem; line-height: 1.1;
+  color: var(--ink);
+}
+.sec-desc {
+  font-size: 13px; color: var(--fog);
+  font-style: italic; margin-top: 4px;
+}
+
+/* ══════════════════════════════════
+   SECTION 01 — PROFIL
+══════════════════════════════════ */
+.profil-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--sand);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+@media (max-width: 640px) { .profil-grid { grid-template-columns: 1fr; } }
+.profil-cell {
+  background: var(--white);
+  padding: 2rem;
+}
+.profil-cell-label {
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.18em; color: var(--rust);
+  margin-bottom: 10px;
+}
+.profil-cell-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.4rem; color: var(--ink);
+  margin-bottom: 10px; line-height: 1.2;
+}
+.profil-cell-body {
+  font-size: 14px; color: #555; line-height: 1.8;
+}
+
+.narasi-card {
+  background: var(--ink);
+  border-radius: 16px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.narasi-card::before {
+  content: '"';
+  position: absolute;
+  top: -20px; left: 24px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 180px;
+  color: rgba(212,150,42,0.07);
+  line-height: 1;
+}
+.narasi-label {
+  font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--amber);
+  margin-bottom: 12px;
+}
+.narasi-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.6rem; color: #fff;
+  margin-bottom: 1.25rem;
+}
+.narasi-body {
+  font-size: 14.5px; color: rgba(255,255,255,0.72);
+  line-height: 1.9;
+}
+
+.quote-ribbon {
+  border-left: 3px solid var(--rust);
+  padding: 1rem 1.5rem;
+  background: var(--white);
+  border-radius: 0 12px 12px 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.quote-ribbon cite {
+  display: block;
+  font-style: normal;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-top: 8px;
+}
+
+/* ══════════════════════════════════
+   SECTION 02 — MODEL GURU
+══════════════════════════════════ */
+.misi-card {
+  background: linear-gradient(135deg, var(--moss) 0%, #2a4535 100%);
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.misi-card::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; right: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 40px solid rgba(255,255,255,0.05);
+}
+.misi-card-label {
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+}
+.misi-card-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-style: italic;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.8;
+}
+
+.komp-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+}
+@media (max-width: 640px) { .komp-grid { grid-template-columns: 1fr 1fr; } }
+.komp-item {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 1.4rem 1.2rem;
+  border-top: 3px solid transparent;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: default;
+}
+.komp-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(23,18,14,0.1);
+}
+.komp-item:nth-child(1) { border-top-color: var(--rust); }
+.komp-item:nth-child(2) { border-top-color: var(--amber); }
+.komp-item:nth-child(3) { border-top-color: var(--moss); }
+.komp-item:nth-child(4) { border-top-color: var(--dusk); }
+.komp-item:nth-child(5) { border-top-color: #8B5CF6; }
+.komp-item:nth-child(6) { border-top-color: #DB2777; }
+.komp-icon { font-size: 24px; margin-bottom: 10px; }
+.komp-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 14px; color: var(--ink);
+  margin-bottom: 6px;
+}
+.komp-desc { font-size: 12px; color: var(--fog); line-height: 1.55; }
+
+/* ══════════════════════════════════
+   SECTION 03 — ARTEFAK
+══════════════════════════════════ */
+.filter-strip {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.filter-btn {
+  background: none;
+  border: 1.5px solid rgba(23,18,14,0.15);
+  padding: 6px 18px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--fog);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 400;
+}
+.filter-btn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--amber);
+}
+.filter-btn:not(.active):hover {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.artefak-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 14px;
+}
+@media (max-width: 640px) { .artefak-grid { grid-template-columns: 1fr 1fr; } }
+
+.artefak-card {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  border: 1.5px solid transparent;
+}
+.artefak-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(23,18,14,0.12);
+  border-color: var(--amber);
+}
+.artefak-card.hidden { display: none; }
+
+.artefak-thumb {
+  height: 80px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  position: relative;
+}
+.artefak-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.06));
+}
+.bg-sage   { background: linear-gradient(135deg,#d4edda,#b7d7be); }
+.bg-gold   { background: linear-gradient(135deg,#fdecc8,#f5d58a); }
+.bg-blue   { background: linear-gradient(135deg,#dde8f9,#b8cef4); }
+.bg-red    { background: linear-gradient(135deg,#fce4d6,#f5b99a); }
+.bg-purple { background: linear-gradient(135deg,#ede4f9,#d4bcf0); }
+.bg-green  { background: linear-gradient(135deg,#d4f4e6,#96ddb9); }
+
+.artefak-body { padding: 14px; }
+.artefak-siklus {
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--rust);
+  margin-bottom: 4px;
+}
+.artefak-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 14px; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.3;
+}
+.artefak-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+.achip {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--sand);
+  color: var(--fog);
+}
+.artefak-arrow {
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 8px 14px;
+  font-size: 11px; color: var(--fog);
+  border-top: 1px solid var(--sand);
+}
+
+/* ── ANALISIS PANEL ── */
+.analisis-panel {
+  display: none;
+  background: var(--white);
+  border: 1.5px solid var(--amber);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1rem 0 0.5rem;
+  animation: panelIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes panelIn {
+  from { opacity:0; transform: scale(0.97) translateY(10px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+.analisis-panel.show { display: block; }
+
+.panel-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.3rem; color: var(--ink);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.panel-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--sand);
+}
+
+.quad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+@media (max-width: 640px) { .quad-grid { grid-template-columns: 1fr; } }
+
+.quad {
+  border-radius: 12px;
+  padding: 1rem;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.quad-k  { background: #EEF3FE; }
+.quad-t  { background: #EAF5EC; }
+.quad-l  { background: #FFF7E6; }
+.quad-ku { background: #FEF0EB; }
+.quad-lbl {
+  font-size: 9px; text-transform: uppercase;
+  letter-spacing: 0.16em; font-weight: 600;
+  color: var(--ink); opacity: 0.5;
+  margin-bottom: 6px;
+}
+
+.teori-pill {
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.7;
+}
+.teori-pill strong { color: var(--amber); }
+
+/* ── VIDEO SECTION ── */
+.video-section {
+  background: var(--ink);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.video-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.video-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+  border-bottom: 2px solid transparent;
+}
+.video-tab.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+  background: rgba(212,150,42,0.06);
+}
+.video-tab-panel { padding: 1.25rem; }
+.video-input-row {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.video-input {
+  flex: 1; min-width: 200px;
+  padding: 9px 14px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+}
+.video-input::placeholder { color: rgba(255,255,255,0.3); }
+.video-input:focus { border-color: var(--amber); }
+.video-btn {
+  background: var(--rust);
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.04em;
+  transition: background 0.2s;
+}
+.video-btn:hover { background: #b54424; }
+
+.drop-zone {
+  border: 1.5px dashed rgba(212,150,42,0.4);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.drop-zone:hover { background: rgba(212,150,42,0.06); }
+.drop-icon { font-size: 40px; margin-bottom: 10px; }
+.drop-title {
+  font-family: 'DM Serif Display', serif;
+  color: rgba(255,255,255,0.8);
+  font-size: 15px; margin-bottom: 6px;
+}
+.drop-sub { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+/* ══════════════════════════════════
+   SECTION 04 — PENILAIAN
+══════════════════════════════════ */
+.table-wrap {
+  overflow-x: auto;
+  background: var(--white);
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(23,18,14,0.06);
+}
+.table-hd {
+  background: var(--ink);
+  padding: 1.25rem 1.75rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.table-hd-icon { font-size: 20px; }
+.table-hd-text {
+  font-family: 'DM Serif Display', serif;
+  color: #fff; font-size: 1.1rem;
+}
+.table-hd-sub { font-size: 12px; color: var(--amber); }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead tr { background: var(--sand); }
+thead th {
+  color: var(--ink);
+  padding: 10px 16px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid rgba(23,18,14,0.08);
+}
+tbody td {
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(23,18,14,0.05);
+  color: #444;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: #FDFBF7; }
+.badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0;
+}
+.badge-a { background: #D1FAE5; color: #065F46; }
+.badge-b { background: #DBEAFE; color: #1E40AF; }
+.badge-c { background: #FEF3C7; color: #92400E; }
+
+/* ══════════════════════════════════
+   SECTION 05 — REFLEKSI
+══════════════════════════════════ */
+.timeline {
+  position: relative;
+  padding-left: 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 40px; top: 56px; bottom: -2rem;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--rust), transparent);
+}
+.timeline-item:last-child::before { display: none; }
+
+.tl-num {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid var(--rust);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; color: var(--amber);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.tl-content { padding-bottom: 1rem; }
+.tl-label {
+  font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--rust);
+  margin-bottom: 8px;
+}
+.tl-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border-left: 3px solid var(--rust);
+}
+.tl-card h4 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem; color: var(--ink);
+  margin-bottom: 10px;
+}
+.tl-card p { font-size: 14px; color: #555; line-height: 1.8; }
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+.footer {
+  background: var(--ink);
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-top: 4rem;
+}
+.footer-name {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+.footer-meta {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.08em;
+}
+.footer-divider {
+  width: 40px; height: 1px;
+  background: var(--rust);
+  margin: 1rem auto;
+}
+
+/* ══════════════════════════════════
+   ANIMATIONS ON SCROLL
+══════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media print {
+  .navbar, .hero-scroll { display: none; }
+  .analisis-panel { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="#hero" class="navbar-brand">Portfolio · MRR</a>
+  <div class="navbar-links">
+    <a href="#profil">Profil</a>
+    <a href="#model-guru">Model Guru</a>
+    <a href="#artefak">Artefak</a>
+    <a href="#penilaian">Penilaian</a>
+    <a href="#refleksi">Refleksi</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-wm">Calon Guru Profesional</div>
+
+  <div class="hero-avatar">
+    <span class="hero-avatar-init">MR</span>
+  </div>
+
+  <div class="hero-year">PPG Calon Guru · 2026</div>
+
+  <h1>M. <em>Rafqi</em><br>Rahman</h1>
+
+  <p class="hero-sub">Pendidikan Profesi Guru · Universitas Sarjanawiyata Tamansiswa · Yogyakarta</p>
+
+  <div class="hero-chips">
+    <span class="chip accent">PPL Terbimbing</span>
+    <span class="chip">Siklus 1 – 3</span>
+    <span class="chip">Matematika &amp; IPAS</span>
+    <span class="chip">SDN Panembahan</span>
+    <span class="chip">Yogyakarta</span>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="wrap">
+
+<!-- ══ 01 — PROFIL ══ -->
+<section class="sec reveal" id="profil">
+  <div class="sec-hd">
+    <span class="sec-num">01</span>
+    <div class="sec-meta">
+      <span class="sec-label">Tentang Saya</span>
+      <div class="sec-title">Profil Mahasiswa</div>
+      <div class="sec-desc">Asal daerah, inspirasi, dan tujuan menjadi guru profesional</div>
+    </div>
+  </div>
+
+  <div class="profil-grid reveal">
+    <div class="profil-cell">
+      <div class="profil-cell-label">Asal Daerah</div>
+      <div class="profil-cell-title">Kabupaten Pasaman Barat, Sumatera Barat</div>
+      <div class="profil-cell-body">Daerah penghasil kelapa sawit dan kopi, dengan panorama alam yang kaya serta masyarakat yang menjunjung tinggi nilai gotong royong dan kekeluargaan.</div>
+    </div>
+    <div class="profil-cell">
+      <div class="profil-cell-label">Inspirasi Menjadi Guru</div>
+      <div class="profil-cell-title">Siapa atau Apa yang Menginspirasimu?</div>
+      <div class="profil-cell-body"><!-- EDIT --> Saya terinspirasi menjadi guru karena pernah melihat seorang guru mampu mengubah hidup siswa yang sering dianggap tidak mampu. Dengan kesabaran dan kepercayaan yang diberikan, siswa tersebut akhirnya menjadi lebih percaya diri dan berkembang. Dari pengalaman itu, saya sadar bahwa seorang guru bukan hanya mengajar pelajaran, tetapi juga menumbuhkan harapan dan keyakinan dalam diri peserta didik.</div>
+    </div>
+  </div>
+
+  <div class="narasi-card reveal">
+    <div class="narasi-label">Narasi Profil</div>
+    <div class="narasi-title">Tentang Saya</div>
+    <div class="narasi-body">
+      <p>Saya M. Rafqi Rahman, berasal dari Kabupaten Pasaman Barat, Provinsi Sumatera Barat — sebuah daerah yang memiliki keunikan berupa keberagaman budaya, masyarakat yang menjunjung tinggi gotong royong, serta kekayaan alam yang indah. Tumbuh di lingkungan yang sederhana dan penuh nilai kebersamaan, saya mengenal dunia pendidikan sejak kecil melalui pengalaman belajar bersama guru-guru yang sabar dan peduli.</p>
+      <br>
+      <p>Keputusan untuk menjadi guru lahir dari pengalaman melihat bagaimana seorang guru mampu memberikan semangat, motivasi, dan mengubah cara berpikir siswa menjadi lebih baik. Saya percaya bahwa pendidikan bukan hanya tentang menyampaikan ilmu pengetahuan, tetapi juga membentuk karakter, sikap, dan masa depan peserta didik.</p>
+      <br>
+      <p>Tujuan saya adalah menjadi guru yang sabar, inspiratif, dan kreatif — seorang pendidik yang tidak hanya mentransfer ilmu, tetapi juga mampu menanamkan nilai karakter dan membantu siswa mengembangkan potensi terbaik dalam dirinya.</p>
+    </div>
+  </div>
+
+  <blockquote class="quote-ribbon reveal">
+    "Pendidikan adalah senjata paling ampuh yang dapat digunakan untuk mengubah dunia"
+    <cite>— Nelson Mandela</cite>
+  </blockquote>
+</section>
+
+
+<!-- ══ 02 — MODEL GURU ══ -->
+<section class="sec reveal" id="model-guru">
+  <div class="sec-hd">
+    <span class="sec-num">02</span>
+    <div class="sec-meta">
+      <span class="sec-label">Visi Profesional</span>
+      <div class="sec-title">Model Guru yang Dituju</div>
+      <div class="sec-desc">Misi, kompetensi, dan karakter guru profesional yang ingin dibangun</div>
+    </div>
+  </div>
+
+  <div class="misi-card reveal">
+    <div class="misi-card-label">Misi sebagai Guru</div>
+    <div class="misi-card-text">
+      Saya berkomitmen untuk menjadi guru yang mampu membimbing, menginspirasi, dan membantu peserta didik mengembangkan potensi terbaiknya. Saya ingin menciptakan lingkungan belajar yang aktif, menyenangkan, dan penuh rasa saling menghargai, di mana setiap siswa merasa percaya diri, aman, dan termotivasi untuk belajar. Dengan menguasai pendekatan pembelajaran yang kreatif, kolaboratif, dan berpusat pada peserta didik, saya akan memberikan dampak positif bagi peserta didik dan komunitas sekolah.
+    </div>
+  </div>
+
+  <div class="komp-grid reveal">
+    <div class="komp-item">
+      <div class="komp-icon">🧠</div>
+      <div class="komp-name">Kompetensi Pedagogik</div>
+      <div class="komp-desc">Pendekatan pembelajaran yang kreatif, kolaboratif, berdiferensiasi, dan berpusat pada peserta didik.</div>
+    </div>
+    <div class="komp-item">
+      <div class="komp-icon">🌱</div>
+      <div class="komp-name">Kompetensi Kepribadian</div>
+      <div class="komp-desc">Sabar, disiplin, kreatif, komunikatif, empati, dan mampu menjadi teladan yang baik bagi peserta didik.</div>
+    </div>
+    <div class="komp-item">
+      <div class="komp-icon">🤝</div>
+      <div class="komp-name">Kompetensi Sosial</div>
+      <div class="komp-desc">Membangun hubungan yang hangat, komunikatif, saling menghargai dengan siswa, orang tua, serta rekan guru.</div>
+    </div>
+    <div class="komp-item">
+      <div class="komp-icon">📚</div>
+      <div class="komp-name">Kompetensi Profesional</div>
+      <div class="komp-desc">Terus meningkatkan penguasaan materi dan aktif mengikuti pelatihan untuk menyesuaikan pembelajaran dengan kebutuhan zaman.</div>
+    </div>
+    <div class="komp-item">
+      <div class="komp-icon">💡</div>
+      <div class="komp-name">Inovasi Pembelajaran</div>
+      <div class="komp-desc">Mengembangkan media interaktif, teknologi digital, serta kegiatan kolaboratif yang membuat siswa lebih aktif dan antusias.</div>
+    </div>
+    <div class="komp-item">
+      <div class="komp-icon">❤️</div>
+      <div class="komp-name">Empati &amp; Inklusivitas</div>
+      <div class="komp-desc">Berkomitmen untuk menghargai keberagaman dan menciptakan lingkungan belajar yang inklusif, adil, dan nyaman bagi semua siswa.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 03 — ARTEFAK ══ -->
+<section class="sec" id="artefak">
+  <div class="sec-hd reveal">
+    <span class="sec-num">03</span>
+    <div class="sec-meta">
+      <span class="sec-label">Dokumentasi Karya</span>
+      <div class="sec-title">Artefak Produk Pembelajaran</div>
+      <div class="sec-desc">PPM, media, hasil kerja siswa, penilaian, video praktik mengajar</div>
+    </div>
+  </div>
+
+  <div class="filter-strip reveal">
+    <button class="filter-btn active" onclick="filterArtefak('semua',this)">Semua</button>
+    <button class="filter-btn" onclick="filterArtefak('siklus1',this)">Siklus 1</button>
+    <button class="filter-btn" onclick="filterArtefak('siklus2',this)">Siklus 2</button>
+    <button class="filter-btn" onclick="filterArtefak('siklus3',this)">Siklus 3</button>
+  </div>
+
+  <div class="artefak-grid">
+
+    <!-- ARTEFAK 1 -->
+    <div class="artefak-card reveal" data-siklus="siklus1" onclick="showAnalisis('rpp1')">
+      <div class="artefak-thumb bg-sage">📄</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 1</div>
+        <div class="artefak-name">PPM / Modul Ajar</div>
+        <div class="artefak-chips"><span class="achip">Perencanaan</span><span class="achip">Kurikulum</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat analisis →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-rpp1" style="grid-column:1/-1;">
+      <div class="panel-title">📄 Analisis — PPM / Modul Ajar · Siklus 1</div>
+      <div class="quad-grid">
+        <div class="quad quad-k"><div class="quad-lbl">Konteks</div>Jelaskan konteks pembelajaran: kelas berapa, jumlah siswa, kondisi awal, dan latar belakang pemilihan materi ini untuk Siklus 1.</div>
+        <div class="quad quad-t"><div class="quad-lbl">Tujuan</div>Jelaskan tujuan pembuatan RPP ini — kompetensi apa yang ingin dicapai siswa, dan bagaimana kaitannya dengan capaian pembelajaran.</div>
+        <div class="quad quad-l"><div class="quad-lbl">Kelebihan</div>Jelaskan aspek yang berhasil baik dalam RPP ini. Dukung dengan teori (misal: konstruktivisme Vygotsky, diferensiasi pembelajaran).</div>
+        <div class="quad quad-ku"><div class="quad-lbl">Kekurangan &amp; Tindak Lanjut</div>Jelaskan aspek yang perlu diperbaiki dan rencana perbaikan untuk siklus berikutnya berdasarkan kajian teori.</div>
+      </div>
+      <div class="teori-pill"><strong>Kajian Teori:</strong> Hubungkan artefak ini dengan teori dari mata kuliah yang terintegrasi dengan PPL Terbimbing (misal: Strategi Pembelajaran, Pengembangan Kurikulum, Asesmen Autentik).</div>
+    </div>
+
+    <!-- ARTEFAK 2 -->
+    <div class="artefak-card reveal" data-siklus="siklus1" onclick="showAnalisis('media1')">
+      <div class="artefak-thumb bg-gold">🎬</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 1</div>
+        <div class="artefak-name">Media Pembelajaran</div>
+        <div class="artefak-chips"><span class="achip">Media</span><span class="achip">Teknologi</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat analisis →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-media1" style="grid-column:1/-1;">
+      <div class="panel-title">🎬 Analisis — Media Pembelajaran · Siklus 1</div>
+      <div class="quad-grid">
+        <div class="quad quad-k"><div class="quad-lbl">Konteks</div>Jelaskan jenis media yang dibuat, alasan memilih media ini, dan kondisi sarana-prasarana sekolah.</div>
+        <div class="quad quad-t"><div class="quad-lbl">Tujuan</div>Apa tujuan penggunaan media ini dalam pembelajaran? Bagaimana media mendukung capaian tujuan pembelajaran?</div>
+        <div class="quad quad-l"><div class="quad-lbl">Kelebihan</div>Aspek media yang efektif meningkatkan keterlibatan atau pemahaman siswa, didukung teori.</div>
+        <div class="quad quad-ku"><div class="quad-lbl">Kekurangan &amp; Tindak Lanjut</div>Keterbatasan media dan rencana perbaikan untuk siklus berikutnya.</div>
+      </div>
+      <div class="teori-pill"><strong>Kajian Teori:</strong> Kaitkan dengan teori media pembelajaran (Dale's Cone of Experience, TPACK, dll) dari mata kuliah yang relevan.</div>
+    </div>
+
+    <!-- ARTEFAK 3 -->
+    <div class="artefak-card reveal" data-siklus="siklus2" onclick="showAnalisis('hasil2')">
+      <div class="artefak-thumb bg-purple">📝</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 2</div>
+        <div class="artefak-name">Hasil Kerja Siswa</div>
+        <div class="artefak-chips"><span class="achip">Produk Siswa</span><span class="achip">Asesmen</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat analisis →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-hasil2" style="grid-column:1/-1;">
+      <div class="panel-title">📝 Analisis — Hasil Kerja Siswa · Siklus 2</div>
+      <div class="quad-grid">
+        <div class="quad quad-k"><div class="quad-lbl">Konteks</div>Ceritakan tugas/proyek yang diberikan, bagaimana konteks penugasannya, dan sampel siswa yang dipilih sebagai contoh.</div>
+        <div class="quad quad-t"><div class="quad-lbl">Tujuan</div>Apa yang ingin dibuktikan dari hasil kerja siswa ini? Hubungkan dengan tujuan pembelajaran.</div>
+        <div class="quad quad-l"><div class="quad-lbl">Kelebihan</div>Apa yang menunjukkan keberhasilan pembelajaran dari hasil kerja siswa ini?</div>
+        <div class="quad quad-ku"><div class="quad-lbl">Kekurangan &amp; Tindak Lanjut</div>Apa yang belum tercapai dan bagaimana tindak lanjutnya?</div>
+      </div>
+      <div class="teori-pill"><strong>Kajian Teori:</strong> Hubungkan dengan teori asesmen autentik, taksonomi Bloom, atau pendekatan pembelajaran berbasis proyek dari mata kuliah yang relevan.</div>
+    </div>
+
+    <!-- ARTEFAK 4 -->
+    <div class="artefak-card reveal" data-siklus="siklus2" onclick="showAnalisis('instr2')">
+      <div class="artefak-thumb bg-blue">✅</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 2</div>
+        <div class="artefak-name">Instrumen Penilaian</div>
+        <div class="artefak-chips"><span class="achip">Evaluasi</span><span class="achip">Rubrik</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat analisis →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-instr2" style="grid-column:1/-1;">
+      <div class="panel-title">✅ Analisis — Instrumen Penilaian · Siklus 2</div>
+      <div class="quad-grid">
+        <div class="quad quad-k"><div class="quad-lbl">Konteks</div>Jelaskan jenis instrumen (rubrik/soal/observasi), sasaran kompetensi yang diukur, dan konteks penggunaannya.</div>
+        <div class="quad quad-t"><div class="quad-lbl">Tujuan</div>Apa tujuan penilaian ini? Apakah formatif atau sumatif? Bagaimana hubungannya dengan tujuan pembelajaran?</div>
+        <div class="quad quad-l"><div class="quad-lbl">Kelebihan</div>Aspek instrumen yang valid, reliabel, dan adil bagi semua siswa.</div>
+        <div class="quad quad-ku"><div class="quad-lbl">Kekurangan &amp; Tindak Lanjut</div>Kelemahan instrumen dan rencana perbaikan.</div>
+      </div>
+      <div class="teori-pill"><strong>Kajian Teori:</strong> Kaitkan dengan prinsip asesmen formatif, validitas konstruk, atau pendekatan asesmen for learning dari mata kuliah yang relevan.</div>
+    </div>
+	 <!-- ARTEFAK 5 -->
+<div class="artefak-card reveal" data-siklus="siklus1" onclick="showAnalisis('video3')">
+      <div class="artefak-thumb bg-red">🎥</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 1</div>
+        <div class="artefak-name">Video Praktik Mengajar</div>
+        <div class="artefak-chips"><span class="achip">Praktik</span><span class="achip">Observasi</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat &amp; upload video →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-video3" style="grid-column:1/-1;">
+      <div class="panel-title">🎥 Analisis — Video Praktik Mengajar · Siklus 1</div>
+
+      <div class="video-section">
+        <div class="video-tabs">
+          <button class="video-tab active" onclick="switchVideoTab('youtube',this)">▶ YouTube / Link</button>
+          <button class="video-tab" onclick="switchVideoTab('upload',this)">📁 Upload Video Lokal</button>
+        </div>
+        <div id="vtab-youtube" class="video-tab-panel">
+          <iframe id="yt-iframe" width="100%" height="380"
+            src="https://www.youtube.com/embed/9LxJtKD00-4"
+            title="Video Praktik Mengajar" frameborder="0"
+            allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+            allowfullscreen style="border-radius:8px;display:block;"></iframe>
+          <div class="video-input-row">
+            <input id="video-url-input" class="video-input" type="text" placeholder="Paste link YouTube atau Google Drive...">
+            <button class="video-btn" onclick="applyVideoURL()">Tampilkan</button>
+          </div>
+          <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px;">Mendukung YouTube &amp; Google Drive (akses publik).</p>
+        </div>
+        <div id="vtab-upload" class="video-tab-panel" style="display:none;">
+          <div class="drop-zone" id="video-drop-zone" onclick="document.getElementById('video-file-input').click()">
+            <div class="drop-icon">🎬</div>
+            <div class="drop-title">Klik atau seret video ke sini</div>
+            <div class="drop-sub">MP4 · MOV · AVI · WebM</div>
+          </div>
+          <input type="file" id="video-file-input" accept="video/*" style="display:none;" onchange="loadLocalVideo(this)">
+          <div id="local-video-wrapper" style="display:none;margin-top:1rem;">
+            <video id="local-video-player" controls style="width:100%;border-radius:8px;background:#000;max-height:360px;display:block;"></video>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+              <span id="local-video-name" style="font-size:12px;color:rgba(255,255,255,0.4);"></span>
+              <button onclick="clearLocalVideo()" class="video-btn" style="background:rgba(255,255,255,0.08);font-size:11px;padding:6px 14px;">✕ Hapus</button>
+            </div>
+          </div>
+          <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;">⚠ Video lokal hanya tampil di browser ini. Untuk berbagi gunakan tab YouTube/Link.</p>
+        </div>
+      </div>
+
+    <div class="artefak-card reveal" data-siklus="siklus3" onclick="showAnalisis('jurnal3')">
+      <div class="artefak-thumb bg-green">📓</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 3</div>
+        <div class="artefak-name">Catatan Refleksi</div>
+        <div class="artefak-chips"><span class="achip">Refleksi</span><span class="achip">Pengembangan Diri</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat analisis →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-jurnal3" style="grid-column:1/-1;">
+      <div class="panel-title">📓 Analisis — Catatan Refleksi · Siklus 3</div>
+      <div class="quad-grid">
+        <div class="quad quad-k"><div class="quad-lbl">Konteks</div>Kapan dan bagaimana jurnal ini dibuat? Apa yang mendorongmu untuk menulis refleksi ini?</div>
+        <div class="quad quad-t"><div class="quad-lbl">Tujuan</div>Apa tujuan refleksi ini dalam perjalanan profesionalmu sebagai calon guru?</div>
+        <div class="quad quad-l"><div class="quad-lbl">Insight Utama</div>Pembelajaran terbesar apa yang didapat dari refleksi ini?</div>
+        <div class="quad quad-ku"><div class="quad-lbl">Rencana Pengembangan Diri</div>Apa langkah konkret yang akan diambil berdasarkan refleksi ini?</div>
+      </div>
+      <div class="teori-pill"><strong>Kajian Teori:</strong> Kaitkan dengan model reflektif (Gibbs Reflective Cycle, Kolb's Experiential Learning, dll) dari mata kuliah yang relevan.</div>
+    </div>
+
+  </div><!-- end artefak-grid -->
+</section>
+
+    <!-- ARTEFAK 5 — VIDEO 2 -->
+    <div class="artefak-card reveal" data-siklus="siklus3" onclick="showAnalisis('video3')">
+      <div class="artefak-thumb bg-red">🎥</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 2</div>
+        <div class="artefak-name">Video Praktik Mengajar</div>
+        <div class="artefak-chips"><span class="achip">Praktik</span><span class="achip">Observasi</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat &amp; upload video →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-video3" style="grid-column:1/-1;">
+      <div class="panel-title">🎥 Analisis — Video Praktik Mengajar · Siklus 2</div>
+
+      <div class="video-section">
+        <div class="video-tabs">
+          <button class="video-tab active" onclick="switchVideoTab('youtube',this)">▶ YouTube / Link</button>
+          <button class="video-tab" onclick="switchVideoTab('upload',this)">📁 Upload Video Lokal</button>
+        </div>
+        <div id="vtab-youtube" class="video-tab-panel">
+          <iframe id="yt-iframe" width="100%" height="380"
+            src="https://www.youtube.com/embed/9LxJtKD00-4"
+            title="Video Praktik Mengajar" frameborder="0"
+            allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+            allowfullscreen style="border-radius:8px;display:block;"></iframe>
+          <div class="video-input-row">
+            <input id="video-url-input" class="video-input" type="text" placeholder="Paste link YouTube atau Google Drive...">
+            <button class="video-btn" onclick="applyVideoURL()">Tampilkan</button>
+          </div>
+          <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px;">Mendukung YouTube &amp; Google Drive (akses publik).</p>
+        </div>
+        <div id="vtab-upload" class="video-tab-panel" style="display:none;">
+          <div class="drop-zone" id="video-drop-zone" onclick="document.getElementById('video-file-input').click()">
+            <div class="drop-icon">🎬</div>
+            <div class="drop-title">Klik atau seret video ke sini</div>
+            <div class="drop-sub">MP4 · MOV · AVI · WebM</div>
+          </div>
+          <input type="file" id="video-file-input" accept="video/*" style="display:none;" onchange="loadLocalVideo(this)">
+          <div id="local-video-wrapper" style="display:none;margin-top:1rem;">
+            <video id="local-video-player" controls style="width:100%;border-radius:8px;background:#000;max-height:360px;display:block;"></video>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+              <span id="local-video-name" style="font-size:12px;color:rgba(255,255,255,0.4);"></span>
+              <button onclick="clearLocalVideo()" class="video-btn" style="background:rgba(255,255,255,0.08);font-size:11px;padding:6px 14px;">✕ Hapus</button>
+            </div>
+          </div>
+          <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;">⚠ Video lokal hanya tampil di browser ini. Untuk berbagi gunakan tab YouTube/Link.</p>
+        </div>
+      </div>
+
+      <div class="quad-grid" style="margin-top:0;">
+        <div class="quad quad-k"><div class="quad-lbl">Konteks</div>Jelaskan konteks rekaman: materi, kelas, metode yang ditampilkan, dan bagian mana dari pembelajaran yang direkam.</div>
+        <div class="quad quad-t"><div class="quad-lbl">Tujuan</div>Apa yang ingin ditunjukkan melalui video ini tentang perkembangan praktik mengajarmu?</div>
+        <div class="quad quad-l"><div class="quad-lbl">Kelebihan</div>Aspek mengajar yang terlihat meningkat dibanding siklus sebelumnya.</div>
+        <div class="quad quad-ku"><div class="quad-lbl">Kekurangan &amp; Tindak Lanjut</div>Area yang masih perlu dikembangkan dan rencana ke depan.</div>
+      </div>
+      <div class="teori-pill" style="margin-top:10px;"><strong>Kajian Teori:</strong> Hubungkan dengan teori pengelolaan kelas, komunikasi pedagogis, atau reflective practice dari mata kuliah yang relevan.</div>
+    </div>
+
+
+    <!-- ARTEFAK 6 -->
+    <div class="artefak-card reveal" data-siklus="siklus3" onclick="showAnalisis('video3')">
+      <div class="artefak-thumb bg-red">🎥</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 3</div>
+        <div class="artefak-name">Video Praktik Mengajar</div>
+        <div class="artefak-chips"><span class="achip">Praktik</span><span class="achip">Observasi</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat &amp; upload video →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-video3" style="grid-column:1/-1;">
+      <div class="panel-title">🎥 Analisis — Video Praktik Mengajar · Siklus 3</div>
+
+      <div class="video-section">
+        <div class="video-tabs">
+          <button class="video-tab active" onclick="switchVideoTab('youtube',this)">▶ YouTube / Link</button>
+          <button class="video-tab" onclick="switchVideoTab('upload',this)">📁 Upload Video Lokal</button>
+        </div>
+        <div id="vtab-youtube" class="video-tab-panel">
+          <iframe id="yt-iframe" width="100%" height="380"
+            src="https://www.youtube.com/embed/9LxJtKD00-4"
+            title="Video Praktik Mengajar" frameborder="0"
+            allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+            allowfullscreen style="border-radius:8px;display:block;"></iframe>
+          <div class="video-input-row">
+            <input id="video-url-input" class="video-input" type="text" placeholder="Paste link YouTube atau Google Drive...">
+            <button class="video-btn" onclick="applyVideoURL()">Tampilkan</button>
+          </div>
+          <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px;">Mendukung YouTube &amp; Google Drive (akses publik).</p>
+        </div>
+        <div id="vtab-upload" class="video-tab-panel" style="display:none;">
+          <div class="drop-zone" id="video-drop-zone" onclick="document.getElementById('video-file-input').click()">
+            <div class="drop-icon">🎬</div>
+            <div class="drop-title">Klik atau seret video ke sini</div>
+            <div class="drop-sub">MP4 · MOV · AVI · WebM</div>
+          </div>
+          <input type="file" id="video-file-input" accept="video/*" style="display:none;" onchange="loadLocalVideo(this)">
+          <div id="local-video-wrapper" style="display:none;margin-top:1rem;">
+            <video id="local-video-player" controls style="width:100%;border-radius:8px;background:#000;max-height:360px;display:block;"></video>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+              <span id="local-video-name" style="font-size:12px;color:rgba(255,255,255,0.4);"></span>
+              <button onclick="clearLocalVideo()" class="video-btn" style="background:rgba(255,255,255,0.08);font-size:11px;padding:6px 14px;">✕ Hapus</button>
+            </div>
+          </div>
+          <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;">⚠ Video lokal hanya tampil di browser ini. Untuk berbagi gunakan tab YouTube/Link.</p>
+        </div>
+      </div>
+
+    <div class="artefak-card reveal" data-siklus="siklus3" onclick="showAnalisis('jurnal3')">
+      <div class="artefak-thumb bg-green">📓</div>
+      <div class="artefak-body">
+        <div class="artefak-siklus">Siklus 3</div>
+        <div class="artefak-name">Catatan Refleksi</div>
+        <div class="artefak-chips"><span class="achip">Refleksi</span><span class="achip">Pengembangan Diri</span></div>
+      </div>
+      <div class="artefak-arrow">Lihat analisis →</div>
+    </div>
+    <div class="analisis-panel" id="analisis-jurnal3" style="grid-column:1/-1;">
+      <div class="panel-title">📓 Analisis — Catatan Refleksi · Siklus 3</div>
+      <div class="quad-grid">
+        <div class="quad quad-k"><div class="quad-lbl">Konteks</div>Kapan dan bagaimana jurnal ini dibuat? Apa yang mendorongmu untuk menulis refleksi ini?</div>
+        <div class="quad quad-t"><div class="quad-lbl">Tujuan</div>Apa tujuan refleksi ini dalam perjalanan profesionalmu sebagai calon guru?</div>
+        <div class="quad quad-l"><div class="quad-lbl">Insight Utama</div>Pembelajaran terbesar apa yang didapat dari refleksi ini?</div>
+        <div class="quad quad-ku"><div class="quad-lbl">Rencana Pengembangan Diri</div>Apa langkah konkret yang akan diambil berdasarkan refleksi ini?</div>
+      </div>
+      <div class="teori-pill"><strong>Kajian Teori:</strong> Kaitkan dengan model reflektif (Gibbs Reflective Cycle, Kolb's Experiential Learning, dll) dari mata kuliah yang relevan.</div>
+    </div>
+
+  </div><!-- end artefak-grid -->
+</section>
+
+
+<!-- ══ 04 — PENILAIAN ══ -->
+<section class="sec reveal" id="penilaian">
+  <div class="sec-hd">
+    <span class="sec-num">04</span>
+    <div class="sec-meta">
+      <span class="sec-label">Evaluasi Eksternal</span>
+      <div class="sec-title">Penilaian dari Guru Pamong &amp; DPL</div>
+      <div class="sec-desc">Lampiran 7 (Perangkat Pembelajaran) &amp; Lampiran 8 (Praktik Mengajar)</div>
+    </div>
+  </div>
+
+  <div class="table-wrap reveal">
+    <div class="table-hd">
+      <span class="table-hd-icon">📋</span>
+      <div>
+        <div class="table-hd-text">Lampiran 7</div>
+        <div class="table-hd-sub">Instrumen Penilaian Penyusunan Perangkat Pembelajaran</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Komponen Penilaian</th>
+          <th>Siklus 1</th>
+          <th>Siklus 2</th>
+          <th>Siklus 3</th>
+          <th>Catatan Guru Pamong</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Kelengkapan komponen perangkat</td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP siklus 1-3]</td></tr>
+        <tr><td>Kesesuaian tujuan &amp; capaian pembelajaran</td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP siklus 1-3]</td></tr>
+        <tr><td>Kesesuaian asesmen dengan tujuan</td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP siklus 1-3]</td></tr>
+        <tr><td>Diferensiasi &amp; keberagaman siswa</td><td><span class="badge badge-c">C</span></td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP siklus 1-3]</td></tr>
+        <tr><td>Kreativitas &amp; inovasi media</td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP siklus 1-3]</td></tr>
+        <tr><td>Keterbacaan &amp; sistematika penulisan</td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP siklus 1-3]</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-wrap reveal">
+    <div class="table-hd">
+      <span class="table-hd-icon">🏫</span>
+      <div>
+        <div class="table-hd-text">Lampiran 8</div>
+        <div class="table-hd-sub">Instrumen Penilaian Praktik Mengajar Mahasiswa</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Aspek Praktik Mengajar</th>
+          <th>Siklus 1</th>
+          <th>Siklus 2</th>
+          <th>Siklus 3</th>
+          <th>Catatan GP / DPL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Pengelolaan &amp; kondisi kelas</td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP/DPL]</td></tr>
+        <tr><td>Komunikasi &amp; keterlibatan siswa</td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP/DPL]</td></tr>
+        <tr><td>Penggunaan media &amp; teknologi</td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP/DPL]</td></tr>
+        <tr><td>Penguasaan materi pelajaran</td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP/DPL]</td></tr>
+        <tr><td>Pelaksanaan asesmen formatif</td><td><span class="badge badge-c">C</span></td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP/DPL]</td></tr>
+        <tr><td>Kemampuan refleksi &amp; adaptasi</td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-b">B</span></td><td><span class="badge badge-a">A</span></td><td>[Catatan GP/DPL]</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ══ 05 — REFLEKSI ══ -->
+<section class="sec reveal" id="refleksi">
+  <div class="sec-hd">
+    <span class="sec-num">05</span>
+    <div class="sec-meta">
+      <span class="sec-label">Perjalanan Belajar</span>
+      <div class="sec-title">Refleksi Diri</div>
+      <div class="sec-desc">Perjalanan belajar sepanjang 3 siklus PPL Terbimbing</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item reveal">
+      <div class="tl-num">I</div>
+      <div class="tl-content">
+        <div class="tl-label">Siklus 1 — Refleksi Awal</div>
+        <div class="tl-card">
+          <h4>[Judul Refleksi Siklus 1, misal: "Pertama Kali Berdiri di Depan Kelas"]</h4>
+          <p>Ceritakan pengalaman mengajar pertamamu dengan jujur: apa yang dirasakan sebelum, saat, dan setelah mengajar. Identifikasi apa yang berjalan baik dan apa yang mengejutkan. Analisis <em>mengapa</em> hal tersebut terjadi dengan mengacu pada teori yang relevan. Akhiri dengan rencana perbaikan konkret untuk Siklus 2.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="tl-num">II</div>
+      <div class="tl-content">
+        <div class="tl-label">Siklus 2 — Refleksi Perkembangan</div>
+        <div class="tl-card">
+          <h4>[Judul Refleksi Siklus 2, misal: "Belajar Membaca Dinamika Kelas"]</h4>
+          <p>Tunjukkan pertumbuhan dari Siklus 1: apa yang sudah berhasil diperbaiki, bagaimana respons siswa berubah, dan tantangan baru apa yang muncul. Kaitkan pengalamanmu dengan kajian teori dari mata kuliah yang terintegrasi.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="tl-num">III</div>
+      <div class="tl-content">
+        <div class="tl-label">Siklus 3 — Refleksi Akhir &amp; Visi ke Depan</div>
+        <div class="tl-card">
+          <h4>[Judul Refleksi Siklus 3, misal: "Menjadi Guru adalah Perjalanan Tanpa Henti"]</h4>
+          <p>Rangkum transformasi terbesarmu sepanjang PPL Terbimbing. Refleksikan momen paling bermakna yang membentuk identitas profesionalmu. Tutup dengan visi konkret dan komitmen yang kamu bawa setelah PPL ini.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div><!-- end wrap -->
+
+
+<footer class="footer">
+  <div class="footer-name">M. Rafqi Rahman</div>
+  <div class="footer-divider"></div>
+  <div class="footer-meta">E-Portfolio PPL Terbimbing &nbsp;·&nbsp; Pendidikan Guru Sekolah Dasar &nbsp;·&nbsp; Universitas Sarjanawiyata Tamansiswa &nbsp;·&nbsp; 2026</div>
+</footer>
+
+
+<script>
+// ── FILTER ARTEFAK
+function filterArtefak(siklus, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.artefak-card').forEach(card => {
+    const show = siklus === 'semua' || card.dataset.siklus === siklus;
+    card.classList.toggle('hidden', !show);
+    if (!show) {
+      const id = card.getAttribute('onclick').match(/'([^']+)'/)[1];
+      const p = document.getElementById('analisis-' + id);
+      if (p) p.classList.remove('show');
+    }
+  });
+}
+
+// ── TOGGLE ANALISIS
+function showAnalisis(id) {
+  const panel = document.getElementById('analisis-' + id);
+  if (!panel) return;
+  const isOpen = panel.classList.contains('show');
+  document.querySelectorAll('.analisis-panel').forEach(p => p.classList.remove('show'));
+  if (!isOpen) {
+    panel.classList.add('show');
+    setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+  }
+}
+
+// ── VIDEO TABS
+function switchVideoTab(tab, btn) {
+  document.querySelectorAll('.video-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('vtab-youtube').style.display = tab === 'youtube' ? '' : 'none';
+  document.getElementById('vtab-upload').style.display  = tab === 'upload'  ? '' : 'none';
+}
+
+// ── APPLY VIDEO URL
+function applyVideoURL() {
+  let url = document.getElementById('video-url-input').value.trim();
+  if (!url) return;
+  let embed = url;
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (yt) embed = 'https://www.youtube.com/embed/' + yt[1];
+  const gd = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  if (gd) embed = 'https://drive.google.com/file/d/' + gd[1] + '/preview';
+  document.getElementById('yt-iframe').src = embed;
+}
+
+// ── LOCAL VIDEO
+function loadLocalVideo(input) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('local-video-player').src = URL.createObjectURL(file);
+  document.getElementById('local-video-name').textContent = '📎 ' + file.name;
+  document.getElementById('local-video-wrapper').style.display = '';
+  document.getElementById('video-drop-zone').style.display = 'none';
+}
+function clearLocalVideo() {
+  document.getElementById('local-video-player').src = '';
+  document.getElementById('local-video-name').textContent = '';
+  document.getElementById('local-video-wrapper').style.display = 'none';
+  document.getElementById('video-drop-zone').style.display = '';
+  document.getElementById('video-file-input').value = '';
+}
+
+// ── DRAG & DROP
+document.addEventListener('DOMContentLoaded', () => {
+  const dz = document.getElementById('video-drop-zone');
+  if (!dz) return;
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.style.borderColor = '#D4962A'; });
+  dz.addEventListener('dragleave', () => { dz.style.borderColor = 'rgba(212,150,42,0.4)'; });
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.style.borderColor = 'rgba(212,150,42,0.4)';
+    const f = e.dataTransfer.files[0];
+    if (f && f.type.startsWith('video/')) loadLocalVideo({ files: [f] });
+  });
+});
+
+// ── SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => io.observe(el));
+
+// ── ACTIVE NAVBAR
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.navbar-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+});
+</script>
+</body>
+</html>
